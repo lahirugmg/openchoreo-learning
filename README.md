@@ -4,9 +4,9 @@ This repository tracks a structured onboarding path for becoming an OpenChoreo c
 
 ## What This Repo Contains
 - `openchoreo-contributor-learning-plan.md`
-  - The full 8-week contributor plan (Controller/API focus, native Rancher Desktop + k3d setup).
+  - The full 8-module contributor plan (Controller/API focus, native Rancher Desktop + k3d setup).
 - `progress-log.md`
-  - Weekly execution log with outcomes, blockers, and next steps.
+  - Module-by-module execution log with outcomes, blockers, and next steps.
 
 ## Purpose
 - Keep the learning journey explicit and trackable.
@@ -14,7 +14,7 @@ This repository tracks a structured onboarding path for becoming an OpenChoreo c
 - Maintain a repeatable onboarding path for future contributors.
 
 ## How to Use
-1. Follow `openchoreo-contributor-learning-plan.md` week by week.
+1. Follow `openchoreo-contributor-learning-plan.md` module by module.
 2. Update `progress-log.md` as you complete milestones.
 3. Run all commands from the main OpenChoreo source repo (`code/openchoreo`) unless explicitly stated otherwise.
 4. Use this repo for planning and tracking only; implement code and PR work in the source repo.

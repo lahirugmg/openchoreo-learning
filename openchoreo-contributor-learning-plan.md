@@ -1,14 +1,14 @@
-# 8-Week OpenChoreo Contributor Onboarding Plan
+# 8-Module OpenChoreo Contributor Onboarding Plan
 
 ## Summary
-This plan follows a native `Rancher Desktop + k3d` workflow (not quick-start container as the primary path) with an 8-week deep dive focused on `Controller/API` contributions.
+This plan follows a native `Rancher Desktop + k3d` workflow (not quick-start container as the primary path) with an 8-module deep dive focused on `Controller/API` contributions.
 
 ## Fixed Defaults
 - Focus area: `Controller/API code`
-- Timeline: `8-week deep dive`
+- Timeline: `8-module deep dive`
 - Install path: `Native Rancher Desktop + k3d`
 - Cluster model: start with single-cluster k3d, add optional planes progressively
-- Known blockers to clear in Week 0:
+- Known blockers to clear in Module 0:
   - `go` missing
   - `k3d` missing
   - `kubectl` and `helm` below contributor guide target versions
@@ -18,14 +18,14 @@ This plan follows a native `Rancher Desktop + k3d` workflow (not quick-start con
 - [ ] `open-choreo-learning-plan/progress-log.md`
 
 ## Working Rules
-- [ ] Record weekly evidence in `progress-log.md`
-- [ ] Do not skip exit criteria before moving to the next week
+- [ ] Record module evidence in `progress-log.md`
+- [ ] Do not skip exit criteria before moving to the next module
 - [ ] Keep commands reproducible from `code/openchoreo`
 - [ ] Use fork + upstream Git workflow before first PR
 
 ---
 
-## Week 0: Preflight and Environment Hardening
+## Module 0: Preflight and Environment Hardening
 Goal: Make the local machine contributor-ready.
 
 ### Actions
@@ -61,7 +61,7 @@ git remote -v
 
 ---
 
-## Week 1: Bring Up OpenChoreo on Native k3d (Single Cluster)
+## Module 1: Bring Up OpenChoreo on Native k3d (Single Cluster)
 Goal: Run a working local control plane + data plane.
 
 ### Actions
@@ -88,7 +88,7 @@ kubectl get dataplane -n default
 
 ---
 
-## Week 2: Deploy First Workload and Trace Runtime Resources
+## Module 2: Deploy First Workload and Trace Runtime Resources
 Goal: Understand mapping from declarative model to runtime objects.
 
 ### Actions
@@ -106,7 +106,7 @@ Goal: Understand mapping from declarative model to runtime objects.
 
 ---
 
-## Week 3: Add Build Plane and Run Build-from-Source Flow
+## Module 3: Add Build Plane and Run Build-from-Source Flow
 Goal: Complete source-to-deploy workflow.
 
 ### Actions
@@ -124,7 +124,7 @@ Goal: Complete source-to-deploy workflow.
 
 ---
 
-## Week 4: Controller/API Architecture Deep Dive
+## Module 4: Controller/API Architecture Deep Dive
 Goal: Build a clear mental model of API types, reconcilers, and service layer.
 
 ### Read Order
@@ -139,7 +139,7 @@ Goal: Build a clear mental model of API types, reconcilers, and service layer.
 
 ---
 
-## Week 5: Fast Local Development Loop (Controller/API)
+## Module 5: Fast Local Development Loop (Controller/API)
 Goal: Shorten edit-test-deploy cycle.
 
 ### Actions
@@ -163,7 +163,7 @@ make test
 
 ---
 
-## Week 6: First Contributor PRs (2 PR Milestone)
+## Module 6: First Contributor PRs (2 PR Milestone)
 Goal: Contribute safely and match repository workflow.
 
 ### PR Targets
@@ -185,7 +185,7 @@ git commit -s -m "<conventional-commit-title>"
 
 ---
 
-## Week 7: CI-Parity and e2e Workflow
+## Module 7: CI-Parity and e2e Workflow
 Goal: Validate changes using project-aligned e2e workflow.
 
 ### Actions
@@ -208,11 +208,11 @@ make e2e.down
 
 ---
 
-## Week 8: Community Integration and Medium-Scope Planning
+## Module 8: Community Integration and Medium-Scope Planning
 Goal: Move from first PRs to sustained contribution.
 
 ### Actions
-- [ ] Follow weekly triage/planning process
+- [ ] Follow regular triage/planning process
 - [ ] Pick one medium-scope task
 - [ ] Open proposal discussion only if the change is CRD/architecture-impacting
 - [ ] Create implementation branch for approved task
