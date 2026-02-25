@@ -1,0 +1,74 @@
+%%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#1976d2','primaryTextColor':'#fff','primaryBorderColor':'#0d47a1','lineColor':'#424242','secondaryColor':'#f3e5f5','tertiaryColor':'#e8f5e9','noteBkgColor':'#fff3e0','noteTextColor':'#e65100'}}}%%
+graph TB
+    User((👤 Developer<br/>Browser))
+    EndUser((🌐 End User<br/>Browser))
+
+    subgraph CP["☁️ Control Plane<br/><small>localhost:8080/8443</small>"]
+        direction TB
+        CP_Gateway["🔀 Gateway<br/><small>kgateway</small>"]
+        Backstage["🎭 Backstage Console<br/><small>Developer Portal</small>"]
+        Thunder["🔐 Thunder<br/><small>Identity Provider</small>"]
+        API["🔌 OpenChoreo API<br/><small>REST Server</small>"]
+        Controller["⚙️ Controller Manager<br/><small>Reconciliation Engine</small>"]
+        ClusterGateway["🌉 Cluster Gateway<br/><small>WebSocket Hub</small>"]
+    end
+
+    subgraph DP["📦 Data Plane<br/><small>localhost:19080/19443</small>"]
+        direction TB
+        DP_Gateway["🔀 Gateway<br/><small>kgateway</small>"]
+        ClusterAgent["🤖 Cluster Agent<br/><small>Connects to Control</small>"]
+        Apps["🚀 Your Apps<br/><small>Components/Workloads</small>"]
+    end
+
+    subgraph BP["🏗️ Build Plane (Optional)<br/><small>localhost:10081/10082</small>"]
+        direction TB
+        ArgoWorkflows["🔄 Argo Workflows<br/><small>CI/CD Pipeline</small>"]
+        Registry["📦 Container Registry<br/><small>Image Storage</small>"]
+    end
+
+    subgraph OP["📊 Observability Plane (Optional)<br/><small>localhost:11080-11085</small>"]
+        direction TB
+        Observer["👁️ Observer API<br/><small>Metrics & Logs</small>"]
+        OpenSearch["🔍 OpenSearch<br/><small>Log Storage</small>"]
+        Prometheus["📈 Prometheus<br/><small>Metrics DB</small>"]
+    end
+
+    K8s[("⎈ Kubernetes<br/>API Server<br/><small>k3d cluster</small>")]
+
+    User -->|"① Access Console<br/>http://openchoreo.localhost:8080"| CP_Gateway
+    CP_Gateway -->|Routes| Backstage
+    CP_Gateway -->|Routes| API
+    CP_Gateway -->|Routes| Thunder
+
+    API -->|Manages| Controller
+    Controller -->|"② CRUD<br/>Operations"| K8s
+
+    ClusterAgent -->|"③ Secure WebSocket<br/>wss://"| ClusterGateway
+    ClusterGateway -->|"④ Commands<br/>& Updates"| ClusterAgent
+
+    ClusterAgent -->|"⑤ Create/Update<br/>Resources"| Apps
+
+    EndUser -->|"⑥ Access App<br/>http://*.openchoreoapis.localhost:19080"| DP_Gateway
+    DP_Gateway -->|"⑦ Route<br/>Traffic"| Apps
+
+    Controller -->|"⑧ Trigger<br/>WorkflowRun"| ArgoWorkflows
+    ArgoWorkflows -->|"⑨ Build &<br/>Push"| Registry
+    Registry -->|"⑩ Pull<br/>Images"| Apps
+
+    Apps -->|"⑪ Send<br/>Telemetry"| Observer
+    Observer -->|Store| OpenSearch
+    Observer -->|Store| Prometheus
+
+    classDef controlPlane fill:#e3f2fd,stroke:#1976d2,stroke-width:3px,color:#0d47a1
+    classDef dataPlane fill:#f3e5f5,stroke:#7b1fa2,stroke-width:3px,color:#4a148c
+    classDef buildPlane fill:#fff3e0,stroke:#f57c00,stroke-width:3px,color:#e65100
+    classDef observabilityPlane fill:#e0f2f1,stroke:#00796b,stroke-width:3px,color:#004d40
+    classDef k8s fill:#ffebee,stroke:#c62828,stroke-width:3px,color:#b71c1c
+    classDef user fill:#e1f5ff,stroke:#01579b,stroke-width:2px,color:#01579b
+
+    class Backstage,Thunder,API,Controller,ClusterGateway,CP_Gateway controlPlane
+    class ClusterAgent,Apps,DP_Gateway dataPlane
+    class ArgoWorkflows,Registry buildPlane
+    class Observer,OpenSearch,Prometheus observabilityPlane
+    class K8s k8s
+    class User,EndUser user

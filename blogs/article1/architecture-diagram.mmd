@@ -1,0 +1,61 @@
+graph TB
+    subgraph "Control Plane (Port 8080/8443)"
+        CP_Gateway[Gateway/Ingress]
+        Backstage[Backstage Console<br/>Developer Portal]
+        Thunder[Thunder<br/>Identity Provider]
+        API[OpenChoreo API<br/>REST Server]
+        Controller[Controller Manager<br/>Reconciliation Engine]
+        ClusterGateway[Cluster Gateway<br/>WebSocket Hub]
+    end
+
+    subgraph "Data Plane (Port 19080/19443)"
+        DP_Gateway[Gateway/Ingress]
+        ClusterAgent[Cluster Agent<br/>Connects to Control Plane]
+        Apps[Your Application<br/>Workloads]
+    end
+
+    subgraph "Build Plane (Optional - Port 10081/10082)"
+        ArgoWorkflows[Argo Workflows<br/>CI/CD Engine]
+        Registry[Container Registry<br/>Image Storage]
+    end
+
+    subgraph "Observability Plane (Optional - Port 11080-11085)"
+        Observer[Observer API<br/>Metrics & Logs]
+        OpenSearch[OpenSearch<br/>Log Storage]
+        Prometheus[Prometheus<br/>Metrics]
+    end
+
+    User((Developer)) -->|http://openchoreo.localhost:8080| CP_Gateway
+    CP_Gateway --> Backstage
+    CP_Gateway --> API
+    CP_Gateway --> Thunder
+
+    API --> Controller
+    Controller -->|Manages Resources| K8s[(Kubernetes<br/>API Server)]
+
+    ClusterAgent -->|Secure WebSocket| ClusterGateway
+    ClusterGateway -->|Sends Commands| ClusterAgent
+
+    ClusterAgent -->|Creates/Updates| Apps
+
+    EndUser((End User)) -->|http://*.openchoreoapis.localhost:19080| DP_Gateway
+    DP_Gateway -->|Routes to| Apps
+
+    Controller -->|Triggers Builds| ArgoWorkflows
+    ArgoWorkflows -->|Pushes Images| Registry
+    Registry -->|Pulls Images| Apps
+
+    Apps -->|Sends Metrics/Logs| Observer
+    Observer --> OpenSearch
+    Observer --> Prometheus
+
+    style User fill:#e1f5ff,stroke:#01579b,stroke-width:2px
+    style EndUser fill:#e1f5ff,stroke:#01579b,stroke-width:2px
+    style Backstage fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    style API fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    style Controller fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    style ClusterAgent fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    style Apps fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px
+    style ArgoWorkflows fill:#fce4ec,stroke:#880e4f,stroke-width:2px
+    style Observer fill:#e0f2f1,stroke:#004d40,stroke-width:2px
+    style K8s fill:#ffebee,stroke:#b71c1c,stroke-width:2px
