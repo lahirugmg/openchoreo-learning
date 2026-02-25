@@ -2,9 +2,6 @@
 
 This repository tracks a structured onboarding path for becoming an OpenChoreo contributor.
 
-It is a companion repo to the source checkout at:
-- `/Users/lahirus/work/pet-projects/open-choreo/code/openchoreo`
-
 ## What This Repo Contains
 - `openchoreo-contributor-learning-plan.md`
   - The full 8-week contributor plan (Controller/API focus, native Rancher Desktop + k3d setup).
